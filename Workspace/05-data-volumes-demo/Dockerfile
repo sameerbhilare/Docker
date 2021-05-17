@@ -36,11 +36,15 @@ COPY . /app
 # This creates anonymous volume.
 # VOLUME [ "/app/feedback" ]
 
+# set environment variables with default values
+# the values can be overwritten with docker run command's --env option e.g. --env PORT=3000
+ENV PORT 80
+
 # When this container is started, we wanna expose a certain port (here 80) to our local system.
 # EXPOSE this instruction only is added for documentation purposes. It doesn't really do anything.
 # It is optional but best practice and recommended to add it to clearly document 
 # to which ports will be exposed by your container.
-EXPOSE 80
+EXPOSE $PORT
 
 # Command to start the server
 # RUN node server.js => This is incorrect bcz here we are trying run server on the image (not on the container)
