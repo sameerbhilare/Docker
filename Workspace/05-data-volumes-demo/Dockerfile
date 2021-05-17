@@ -33,7 +33,8 @@ COPY . /app
 # where we can specify the different paths inside of the container file system. 
 # So, which are going to get used inside of our application code, which we want to persist.
 # here "/app/feedback" is the path inside of the container file system.
-VOLUME [ "/app/feedback" ]
+# This creates anonymous volume.
+# VOLUME [ "/app/feedback" ]
 
 # When this container is started, we wanna expose a certain port (here 80) to our local system.
 # EXPOSE this instruction only is added for documentation purposes. It doesn't really do anything.
@@ -50,4 +51,4 @@ EXPOSE 80
 
 # If you don't specify CMD, then CMD of the base image (mentioned in FROM above) will be executed.
 # With no base image and CMD, you will get an error.
-CMD [ "node", "server.js" ]
+CMD [ "npm", "start" ]
