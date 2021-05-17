@@ -1,0 +1,5 @@
+# With .dockerignore, we can specify which folders and files, 
+# should not be copied by a COPY instruction into the docker image. E.g. to ignore node_modules folder
+# because if would copy node_modules folder via COPY . . instruction, 
+# it will overwrite node_modules folder created due to RUN npm install instruction.
+node_modules
