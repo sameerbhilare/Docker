@@ -3,3 +3,7 @@
 # because if would copy node_modules folder via COPY . . instruction, 
 # it will overwrite node_modules folder created due to RUN npm install instruction.
 node_modules
+
+# ignore the Dockerfile itself as well as a potentially existing .git folder 
+Dockerfile
+.git
