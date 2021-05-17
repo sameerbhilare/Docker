@@ -41,9 +41,7 @@ app.post('/favorites', async (req, res) => {
 
   try {
     await favorite.save();
-    res
-      .status(201)
-      .json({ message: 'Favorite saved!', favorite: favorite.toObject() });
+    res.status(201).json({ message: 'Favorite saved!', favorite: favorite.toObject() });
   } catch (error) {
     res.status(500).json({ message: 'Something went wrong.' });
   }
@@ -68,7 +66,7 @@ app.get('/people', async (req, res) => {
 });
 
 mongoose.connect(
-  'mongodb://localhost:27017/swfavorites',
+  'mongodb://host.docker.internal:27017/swfavorites',
   { useNewUrlParser: true },
   (err) => {
     if (err) {
