@@ -10,3 +10,7 @@ You can access it via -
 http://localhost:3000/feedback/awesome.txt
 OR
 http://192.168.99.100:3000/feedback/awesome.txt
+
+Useful commands -
+
+> docker run --rm -d -p 3000:80 --name feedback-app -v feedback:/app/feedback -v /c/Users/Sameer/DockerMount/05-data-volumes-demo:/app:ro -v /app/temp -v /app/node_modules feedback-node:volumes
