@@ -10,10 +10,9 @@ const Goal = require('./models/goal');
 
 const app = express();
 
-const accessLogStream = fs.createWriteStream(
-  path.join(__dirname, 'logs', 'access.log'),
-  { flags: 'a' }
-);
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'logs', 'access.log'), {
+  flags: 'a',
+});
 
 app.use(morgan('combined', { stream: accessLogStream }));
 
@@ -59,9 +58,7 @@ app.post('/goals', async (req, res) => {
 
   try {
     await goal.save();
-    res
-      .status(201)
-      .json({ message: 'Goal saved', goal: { id: goal.id, text: goalText } });
+    res.status(201).json({ message: 'Goal saved', goal: { id: goal.id, text: goalText } });
     console.log('STORED NEW GOAL');
   } catch (err) {
     console.error('ERROR FETCHING GOALS');
@@ -84,7 +81,8 @@ app.delete('/goals/:id', async (req, res) => {
 });
 
 mongoose.connect(
-  'mongodb://localhost:27017/course-goals',
+  //'mongodb://192.168.99.100:27017/course-goals', // 192.168.99.100 (in case of Docker Toolbox) or localhost (in case of Docker Desktop)
+  'mongodb://mongodb:27017/course-goals', // mongodb://mongodb/course-goals => this will also work bcz mongodb container bydefault exposes 27017 port
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,

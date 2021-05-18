@@ -14,7 +14,9 @@ function App() {
       setIsLoading(true);
 
       try {
-        const response = await fetch('http://localhost/goals');
+        // we cant use http://goals-backend/goals here bcz this code runs in browser, not in docker container
+        // We need to use 192.168.99.100 (in case of Docker Toolbox) or localhost (in case of Docker Desktop)
+        const response = await fetch('http://192.168.99.100/goals');
 
         const resData = await response.json();
 
@@ -24,10 +26,7 @@ function App() {
 
         setLoadedGoals(resData.goals);
       } catch (err) {
-        setError(
-          err.message ||
-            'Fetching goals failed - the server responsed with an error.'
-        );
+        setError(err.message || 'Fetching goals failed - the server responsed with an error.');
       }
       setIsLoading(false);
     }
@@ -39,14 +38,14 @@ function App() {
     setIsLoading(true);
 
     try {
-      const response = await fetch('http://localhost/goals', {
+      const response = await fetch('http://192.168.99.100/goals', {
         method: 'POST',
         body: JSON.stringify({
           text: goalText,
         }),
         headers: {
-          'Content-Type': 'application/json'
-        }
+          'Content-Type': 'application/json',
+        },
       });
 
       const resData = await response.json();
@@ -66,10 +65,7 @@ function App() {
         return updatedGoals;
       });
     } catch (err) {
-      setError(
-        err.message ||
-          'Adding a goal failed - the server responsed with an error.'
-      );
+      setError(err.message || 'Adding a goal failed - the server responsed with an error.');
     }
     setIsLoading(false);
   }
@@ -78,7 +74,7 @@ function App() {
     setIsLoading(true);
 
     try {
-      const response = await fetch('http://localhost/goals/' + goalId, {
+      const response = await fetch('http://192.168.99.100/goals/' + goalId, {
         method: 'DELETE',
       });
 
@@ -93,10 +89,7 @@ function App() {
         return updatedGoals;
       });
     } catch (err) {
-      setError(
-        err.message ||
-          'Deleting the goal failed - the server responsed with an error.'
-      );
+      setError(err.message || 'Deleting the goal failed - the server responsed with an error.');
     }
     setIsLoading(false);
   }
@@ -105,9 +98,7 @@ function App() {
     <div>
       {error && <ErrorAlert errorText={error} />}
       <GoalInput onAddGoal={addGoalHandler} />
-      {!isLoading && (
-        <CourseGoals goals={loadedGoals} onDeleteGoal={deleteGoalHandler} />
-      )}
+      {!isLoading && <CourseGoals goals={loadedGoals} onDeleteGoal={deleteGoalHandler} />}
     </div>
   );
 }
