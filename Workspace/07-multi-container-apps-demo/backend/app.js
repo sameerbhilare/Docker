@@ -84,6 +84,7 @@ mongoose.connect(
   //'mongodb://192.168.99.100:27017/course-goals', // 192.168.99.100 (in case of Docker Toolbox) or localhost (in case of Docker Desktop)
   'mongodb://mongodb:27017/course-goals', // mongodb://mongodb/course-goals => this will also work bcz mongodb container bydefault exposes 27017 port
   //'mongodb://admin:admin@mongodb:27017/course-goals?authSource=admin', // with authentication - username=admin, password=admin
+  //`mongodb://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@mongodb:27017/course-goals?authSource=admin`, // with authentication - username=admin, password=admin
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
