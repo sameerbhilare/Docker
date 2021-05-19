@@ -1,0 +1,83 @@
+# version of docker compose specification.
+# the version we defined here has an effect on the features we can use in this compose file
+# https://docs.docker.com/compose/compose-file/
+version: '3.6'
+
+# services=containers
+services:
+  # mongodb container/service
+  # this service name can be used in the code of other service to connect to this service.
+  mongodb:
+    image: 'mongo'
+    volumes:
+      # you need '-' when we have single value
+      - data:/data/db
+    container_name: mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+      # Way 2 of adding env variables
+      #- MONGO_INITDB_ROOT_USERNAME=admin
+    # Way 3 is by including another env file
+    #env_file:
+    # relative path from this .yaml file
+    #  - ./.env
+
+    # When you use Docker Compose, Docker will automatically create a new environment for all the services specified in this compose file
+    # and it will add all the services to that network out of the box. Hence no need to specify network options for your services.
+    # If you do specify a network explicitly, then that service will be added in default network as well as specified network.
+    #networks:
+    #  - goals-net
+
+  # service 2
+  backend:
+    # path to Dockerfile from where we need to build an image
+    # It builds an image if it doesn't exist or something in the code changes.
+    # way 1
+    build: ./backend
+    # way 2
+    #build:
+    #  context: ./backend
+    #  # dockerfile -not required is filename is Dockerfile
+    #  dockerfile: Dockerfile
+    #  # plus some other options
+    ports:
+      - '80:80'
+    volumes:
+      # named volume
+      - logs:/app/logs
+      # relative path for bind mount
+      - ./backend:/app
+      # anonyous volume
+      - /app/node_modules
+    container_name: goals-backend
+    env_file:
+      - ./backend/.env
+
+    # mentioned services should be up first
+    depends_on:
+      - mongodb
+
+  # service 2
+  frontend:
+    build: ./frontend
+    ports:
+      - '3000:3000'
+    volumes:
+      # bind mount for live source code update
+      - ./frontend/src:/app/src
+    container_name: goals-frontend
+    # let docker know that this service needs open STDIN (input) connection
+    stdin_open: true
+    # attach tty terminal
+    tty: true
+    depends_on:
+      - backend
+
+# any named volume used in any services should be listed under this global volumes
+# If you then use the same volume name in different services, the volume will be shared
+# so different containers can use the same volume, the same folder on your hosting machine.
+volumes:
+  # here 'data' named volume is used in mongodb service.
+  data:
+  logs:
