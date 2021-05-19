@@ -13,11 +13,11 @@ services:
       # you need '-' when we have single value
       - data:/data/db
     container_name: mongodb
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: admin
-      # Way 2 of adding env variables
-      #- MONGO_INITDB_ROOT_USERNAME=admin
+    #environment:
+    #  MONGO_INITDB_ROOT_USERNAME: admin
+    #  MONGO_INITDB_ROOT_PASSWORD: admin
+    #  Way 2 of adding env variables
+    #  - MONGO_INITDB_ROOT_USERNAME=admin
     # Way 3 is by including another env file
     #env_file:
     # relative path from this .yaml file
