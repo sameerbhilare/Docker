@@ -4,6 +4,7 @@ import GoalInput from './components/goals/GoalInput';
 import CourseGoals from './components/goals/CourseGoals';
 import ErrorAlert from './components/UI/ErrorAlert';
 
+// process.env.NODE_ENV is provided as part of react build step
 const backendUrl =
   process.env.NODE_ENV === 'development'
     ? 'http://localhost'
