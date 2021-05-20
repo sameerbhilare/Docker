@@ -41,5 +41,12 @@ spec:
         - name: second-node
           # image on docker hub
           image: academind/kub-first-app:2
+          # how Kubernetes should verify whether this container is up and running.
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            periodSeconds: 10
+            initialDelay: 5
         # - name: ...
         #   image: ...
