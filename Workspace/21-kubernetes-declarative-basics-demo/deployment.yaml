@@ -13,6 +13,7 @@ spec:
   # number of pod instances.default is 1, if you don't provide 'replicas' attribute
   replicas: 1
 
+  # A selector identifies which other resource should be controlled or connected to this resource.
   selector:
     # labels on the pods which should be controlled by this deployment.
     # the key values hereshould match with those under 'template' -> 'metadata' -> 'labels' below

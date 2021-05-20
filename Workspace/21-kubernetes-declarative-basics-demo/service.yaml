@@ -1,15 +1,35 @@
+# api version to use. You can refer kubernetes docs to see versions
 apiVersion: v1
+# Here you define the kind of Kubernetes object you want to create - in this case a "Service" object
 kind: Service
+
+# meta data about this resource type ("Service")
 metadata:
+  # name of the Service
   name: backend
+
+# define how this "Service" should be configured.
 spec:
-  selector: 
+  # A selector identifies which other resource should be controlled or connected to this resource.
+  selector:
+    # here we don't have 'matchLabels', because thatis implicit.
+    # This tell this service that all the pods which have a label of 'app' with a value of 'second-app'
+    # should be 'exposed' by this service.
     app: second-app
+
+  # ports we want to expose on
   ports:
     - protocol: 'TCP'
+      # internal port
       port: 80
+      # outside port
       targetPort: 8080
     # - protocol: 'TCP'
     #   port: 443
     #   targetPort: 443
+
+  # how the pod should be exposed -
+  # CLusterIP -  internally exposed IP. So only accessible from inside the cluster.
+  # NodePort - to expose it on the IP and port of the worker node on which it runs
+  # LoadBalancer - for outside/public access
   type: LoadBalancer
