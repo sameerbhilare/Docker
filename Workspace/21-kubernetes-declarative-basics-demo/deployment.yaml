@@ -41,6 +41,8 @@ spec:
         - name: second-node
           # image on docker hub
           image: academind/kub-first-app:2
+          # imagePullPolicy - Always, Never, IfNotPresent
+          #imagePullPolicy: Always
           # how Kubernetes should verify whether this container is up and running.
           livenessProbe:
             httpGet:
