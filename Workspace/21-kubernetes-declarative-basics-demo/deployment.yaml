@@ -1,0 +1,44 @@
+# api version to use. You can refer kubernetes docs to see versions
+apiVersion: apps/v1
+# Here you define the kind of Kubernetes object you want to create - in this case a "Deployment" object
+kind: Deployment
+
+# meta data about this resource type ("Deployment")
+metadata:
+  # name of the deployment
+  name: second-app-deployment
+
+# define how this "deployment" should be configured.
+spec:
+  # number of pod instances.default is 1, if you don't provide 'replicas' attribute
+  replicas: 1
+
+  selector:
+    # labels on the pods which should be controlled by this deployment.
+    # the key values hereshould match with those under 'template' -> 'metadata' -> 'labels' below
+    # This tell this deployment that all the pods which have a label of 'app' with a value of 'second-app',
+    # and with another label with a name of 'tier' with a value of 'backend' should be controlled by this deployment.
+    # other non-matching pods will not be controlled by this deployment.
+    matchLabels:
+      app: second-app
+      tier: backend
+
+  # define the pods that should be created as part of this "deployment"
+  template:
+    # since this file is "deployment" object. A deployment always contains a pod.
+    # So here no need to use "kind: Pod" as it is default and anyway as per specs you cant add 'kind' here
+    # need to add "metadata" because a pod is a new object
+    metadata:
+      # both key and values under labels can be any custom strings. e.g. blabla: haha
+      labels:
+        app: second-app
+        tier: backend
+    # define how this "pod" should be configured.
+    spec:
+      # allows us to define the container(s) which should be part of this pod by providing name and image name
+      containers:
+        - name: second-node
+          # image on docker hub
+          image: academind/kub-first-app:2
+        # - name: ...
+        #   image: ...
