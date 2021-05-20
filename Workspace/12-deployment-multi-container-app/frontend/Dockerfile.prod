@@ -1,3 +1,9 @@
+# Multi-Stage Build
+# Every FROM instruction creates a new “stage” in a Dockerfile
+# Typically, in a multi-stage build dockerfile, 
+#   if you switch to a next “stage”, the previous step will be discarded and you will switch to a new base image.
+#   However stages can copy results from each other. So we can have one stage to create the optimized files and another stage to serve them.
+#    For this to work give thia stage a name via "as"
 FROM node:14-alpine as build
 
 WORKDIR /app
@@ -9,14 +15,20 @@ RUN npm install
 COPY . .
 
 RUN npm run build
+# after above step, we dont need node anymore
 
+# Multi-Stage Build
+# switch to different build image
 FROM nginx:stable-alpine
 
+# copy from previous stage "build"
+# the 'npm run build' command above creates deployable files in a 'build' folder in that main folder (/app)
+# so copy the deployable files from above stage to /usr/share/nginx/html folder.
+# This is the default folder from where nginx will try to serve files. (see official nginx docker hub docs)
 COPY --from=build /app/build /usr/share/nginx/html
 
+# default port nginx exposes
 EXPOSE 80
 
+# start nginx server. (see official nginx docker hub docs)
 CMD ["nginx", "-g", "daemon off;"]
-
-
-
