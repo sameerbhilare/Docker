@@ -1,12 +1,32 @@
+# using pv for Persistent Volume
+# using pvc for Persistent Volume Claim
 apiVersion: v1
+# kind of resource - PersistentVolumeClaim
+# Everything is a resource/object in kebernetes
 kind: PersistentVolumeClaim
+
 metadata:
+  # name for the pvc. This name will later be important for using it in a pod.
   name: host-pvc
+
+# configuration for this claim
 spec:
+  # which pv we want to claim. We can have more than one pv.
   volumeName: host-pv
+
+  # How the pv should be accessed. Allowed values - ReadWriteOnce, ReadOnlyMany, ReadWriteMany
+  # You can define multiple access modes here because different pods may need different access modes
+  # The mode used here should be supported by the pv. (see host-pv.yaml for supported modes)
   accessModes:
     - ReadWriteOnce
+
+  # Use that same storageClassName as defined in pv when you make your claim.
   storageClassName: standard
+
+  # counterpart of 'capacity' defined in host-pv.yaml file
   resources:
-    requests: 
+    requests:
+      # again this storage should be less than or equal to what is defined in host-pvc.yaml capacity.
+      # If we had multiple claims to the same Persistent Volume,
+      #  we must ensure that "in total" we don't request more than what's available in host-pv.yaml.
       storage: 1Gi

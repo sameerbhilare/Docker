@@ -13,6 +13,8 @@ spec:
 
   # available modes - Filesystem, Block
   volumeMode: Filesystem
+
+  # The storage class gives administrators fine grain control over how storage is managed and how volumes can be configured
   storageClassName: standard
 
   # how this volume can be accessed. Allowed values - ReadWriteOnce, ReadOnlyMany, ReadWriteMany

@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: story-deployment
-spec: 
+spec:
   replicas: 2
   selector:
     matchLabels:
@@ -20,5 +20,9 @@ spec:
               name: story-volume
       volumes:
         - name: story-volume
+          # the volume type for this pod is below claim.
+          # So we will use the volume created or accessed by below claim as a volume for this pod now.
+          # You can use one of the same claim in different types of pods.
+          # Now, this volume not created specifically for this pod, but instead for the entire cluster.
           persistentVolumeClaim:
             claimName: host-pvc
