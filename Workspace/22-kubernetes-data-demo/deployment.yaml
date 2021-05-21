@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: story-deployment
-spec: 
+spec:
   replicas: 1
   selector:
     matchLabels:
@@ -14,4 +14,25 @@ spec:
     spec:
       containers:
         - name: story
-          image: academind/kub-data-demo
+          image: academind/kub-data-demo:1
+          # define volume mounts
+          volumeMounts:
+            # container internal path. depends on your application where your application writes data.
+            # this app writes data to /app/story path inside container
+            - mountPath: /app/story
+              # point at the volume name you want to use for this container internal path.
+              name: story-volume
+
+      # here we define all the volumes which should be part of this pod.
+      # And all containers in that pod will then be able to use that volume.
+      volumes:
+        - name: story-volume
+          # volume type
+          # emptyDir simply creates a new empty directory whenever the pod starts.
+          # And it keeps this directory alive and filled with data as long as the pod is alive.
+          # Containers can then use this direcetory.
+          # And if containers restart or are removed, the data survives.
+          # But if the pod should be removed, this directory is removed.
+          # And when the pod is recreated, a new empty directory is created.
+          # {} - means default configuration of emptyDir volume type
+          emptyDir: {}
