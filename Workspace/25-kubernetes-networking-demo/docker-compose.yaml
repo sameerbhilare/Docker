@@ -8,7 +8,7 @@ services:
     # So that we can use it for both docker-compose and kubernetes
     environment:
       AUTH_ADDRESS: auth
-      # to make the same code work with both docker-compose and kubernetes
+      # Change due to Way 2: to make the same code work with both docker-compose and kubernetes
       AUTH_SERVICE_SERVICE_HOST: auth
     ports:
       - '8080:8080'

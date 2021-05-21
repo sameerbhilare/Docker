@@ -26,4 +26,10 @@ spec:
           env:
             - name: AUTH_ADDRESS
               # Way 1: Using cluster IP address of auth service. (Annoying approach)
-              value: 'xx.xx.xx.xx'
+              #value: 'xx.xx.xx.xx'
+
+              # Way 3 - using cluster internal domain names.
+              # This CoreDNS service which is installed in your cluster, automatically creates domain names
+              # which are available and known inside of the cluster for all your service objects.
+              # The generated domains names are same as service names, followed by a dot and namespace.
+              value: 'auth-service.default'

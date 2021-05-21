@@ -17,8 +17,14 @@ app.post('/signup', async (req, res) => {
 
   try {
     // way 2 - pod-to-pod communication using Kubernetes generated env variable
+    /*
     const hashedPW = await axios.get(
       `http://${process.env.AUTH_SERVICE_SERVICE_HOST}/hashed-password/` + password
+    );
+    */
+    // way 3 - using cluster internal domain names.
+    const hashedPW = await axios.get(
+      `http://${process.env.AUTH_ADDRESS}/hashed-password/` + password
     );
     // const hashedPW = 'dummy text';
     // since it's a dummy service, we don't really care for the hashed-pw either
@@ -42,8 +48,14 @@ app.post('/login', async (req, res) => {
   // normally, we'd find a user by email and grab his/ her ID and hashed password
   const hashedPassword = password + '_hash';
   // way 2 - pod-to-pod communication using Kubernetes generated env variable
+  /*
   const response = await axios.get(
     `http://${process.env.AUTH_SERVICE_SERVICE_HOST}/token/` + hashedPassword + '/' + password
+  );
+  */
+  // way 3 - using cluster internal domain names.
+  const response = await axios.get(
+    `http://${process.env.AUTH_ADDRESS}/token/` + hashedPassword + '/' + password
   );
   // const response = { status: 200, data: { token: 'abc' } };
   if (response.status === 200) {
