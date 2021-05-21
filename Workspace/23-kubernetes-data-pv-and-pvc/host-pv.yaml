@@ -1,14 +1,30 @@
 apiVersion: v1
+# kind of resource - PersistentVolume
 kind: PersistentVolume
 metadata:
+  # name for the pv
   name: host-pv
+# configuration for this PV
 spec:
-  capacity: 
+  # to control how much capacity can be used by the different pods which are later executed in our cluster.
+  capacity:
+    # overall storage capacity (see official docs to see available options)
     storage: 1Gi
+
+  # available modes - Filesystem, Block
   volumeMode: Filesystem
   storageClassName: standard
+
+  # how this volume can be accessed. Allowed values - ReadWriteOnce, ReadOnlyMany, ReadWriteMany
+  # ReadWriteOnce means this volume can be mounted as a read-write volume on one or mode pods but on a single node.
+  # ReadOnlyMany means this volume can be mounted as a read-only volume on multiple pods of multiple nodes.
+  # ReadWriteMany means this volume can be mounted as a read-write volume on multiple pods of multiple nodes.
+  # With 'hostPath' - ReadOnlyMany and ReadWriteMany options are not available.
   accessModes:
     - ReadWriteOnce
+
+  # hostPath only works if we have only one node in our cluster. (Used here on local for demo purpose)
+  # On cloud clusters with multiple nodes, of course we should not use it.
   hostPath:
     path: /data
     type: DirectoryOrCreate
