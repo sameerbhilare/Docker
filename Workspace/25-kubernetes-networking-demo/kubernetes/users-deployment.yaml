@@ -17,5 +17,16 @@ spec:
     # configuration for this pod
     spec:
       containers:
+        # container 1
         - name: users
-          image: academind/kub-demo-users
+          # when using the latest tag, by default kubernetes always refetches and re-evaluates the image
+          # when something changes about our deployment configuration.
+          image: academind/kub-demo-users:latest
+          # need to set this env variable so that users api can talk to auth api which is part of same pod.
+          env:
+            - name: AUTH_ADDRESS
+              value: localhost
+        # container 2
+        # no need to expose port for auth api, as it will be reachable from users api only. So from this same pod
+        - name: auth
+          image: academind/kub-demo-auth:latest
