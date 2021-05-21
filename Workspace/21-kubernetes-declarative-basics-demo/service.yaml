@@ -20,9 +20,9 @@ spec:
   # ports we want to expose on
   ports:
     - protocol: 'TCP'
-      # internal port
+      # outside port to be used by public
       port: 80
-      # outside port
+      # internal port
       targetPort: 8080
     # - protocol: 'TCP'
     #   port: 443
