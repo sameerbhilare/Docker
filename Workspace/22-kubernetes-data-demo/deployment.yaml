@@ -28,11 +28,20 @@ spec:
       volumes:
         - name: story-volume
           # volume type
-          # emptyDir simply creates a new empty directory whenever the pod starts.
+          # emptyDir simply creates a new empty directory whenever the pod starts. (one per pod)
           # And it keeps this directory alive and filled with data as long as the pod is alive.
           # Containers can then use this direcetory.
           # And if containers restart or are removed, the data survives.
           # But if the pod should be removed, this directory is removed.
           # And when the pod is recreated, a new empty directory is created.
           # {} - means default configuration of emptyDir volume type
-          emptyDir: {}
+          #emptyDir: {}
+
+          # This allows us to set a path on the host machine, so on the node, the real machine running this pod,
+          # and then the data from that path will be exposed to the different pods.
+          hostPath:
+            # path on the host machine (worker node machine)
+            path: /data
+            # how this path should be handled.
+            # DirectoryOrCreate - /data should be an existing Directory or create if not existing.
+            type: DirectoryOrCreate
