@@ -25,8 +25,5 @@ spec:
           # need to set this env variable so that users api can talk to auth api which is part of same pod.
           env:
             - name: AUTH_ADDRESS
-              value: localhost
-        # container 2
-        # no need to expose port for auth api, as it will be reachable from users api only. So from this same pod
-        - name: auth
-          image: academind/kub-demo-auth:latest
+              # Way 1: Using cluster IP address of auth service. (Annoying approach)
+              value: 'xx.xx.xx.xx'

@@ -8,7 +8,7 @@ spec:
     app: users
   # for outside access
   type: LoadBalancer
-  # expose ports
+  # expose ports as defined in users-api/Dockerfile
   ports:
     - protocol: TCP
       # outside port

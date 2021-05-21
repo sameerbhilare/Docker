@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-deployment
+
+# configuring deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth
+  # pod details
+  template:
+    metadata:
+      labels:
+        app: auth
+    # configuration for this pod
+    spec:
+      containers:
+        # no need to expose port for auth api, as it will be reachable from users api only. So from this same pod
+        - name: auth
+          image: academind/kub-demo-auth:latest

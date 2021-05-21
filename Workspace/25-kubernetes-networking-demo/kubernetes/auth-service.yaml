@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-service
+spec:
+  # select pods
+  selector:
+    # using the same label used in auth-deployment.yaml
+    app: auth
+  # No outside/public access. Access only within the cluster - so pod to pod communication allowed.
+  type: ClusterIP
+  # expose ports as defined in auth-api/Dockerfile
+  ports:
+    - protocol: TCP
+      # outside port
+      port: 80
+      targetPort: 80
