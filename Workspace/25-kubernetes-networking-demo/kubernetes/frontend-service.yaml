@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+spec:
+  # select pods
+  selector:
+    app: frontend
+  # for outside access
+  type: LoadBalancer
+  # expose ports as defined in frontend-api/Dockerfile
+  ports:
+    - protocol: TCP
+      # outside port
+      port: 80
+      targetPort: 80
