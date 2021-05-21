@@ -17,7 +17,12 @@ const extractAndVerifyToken = async (headers) => {
   }
   const token = headers.authorization.split(' ')[1]; // expects Bearer TOKEN
 
-  const response = await axios.get('http://auth/verify-token/' + token);
+  // way 2 - pod-to-pod communication using Kubernetes generated env variable
+  /*
+  const response = await axios.get(`http://${process.env.AUTH_SERVICE_SERVICE_HOST}/verify-token/` + token);
+  */
+  // way 3 - using cluster internal domain names.
+  const response = await axios.get(`http://${process.env.AUTH_ADDRESS}/verify-token/` + token);
   return response.data.uid;
 };
 

@@ -18,3 +18,7 @@ services:
       - '8000:8000'
     environment:
       TASKS_FOLDER: tasks
+      # So that we can use it for both docker-compose and kubernetes
+      AUTH_ADDRESS: auth
+      # Change due to Way 2: to make the same code work with both docker-compose and kubernetes
+      AUTH_SERVICE_SERVICE_HOST: auth

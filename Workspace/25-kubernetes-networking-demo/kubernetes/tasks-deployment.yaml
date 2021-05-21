@@ -1,29 +1,33 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: users-deployment
+  name: tasks-deployment
 
 # configuring deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: users
+      app: tasks
   # pod details
   template:
     metadata:
       labels:
-        app: users
+        app: tasks
     # configuration for this pod
     spec:
       containers:
         # container 1
-        - name: users
+        - name: tasks
           # when using the latest tag, by default kubernetes always refetches and re-evaluates the image
           # when something changes about our deployment configuration.
-          image: academind/kub-demo-users:latest
-          # need to set this env variable so that users api can talk to auth api.
+          image: academind/kub-demo-tasks:latest
+
           env:
+            - name: TASKS_FOLDER
+              value: tasks
+
+            # need to set this env variable so that tasks api can talk to auth api
             - name: AUTH_ADDRESS
               # Way 1: Using cluster IP address of auth service. (Annoying approach)
               #value: 'xx.xx.xx.xx'
