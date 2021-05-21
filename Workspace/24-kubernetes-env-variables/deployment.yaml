@@ -15,7 +15,9 @@ spec:
       containers:
         - name: story
           image: academind/kub-data-demo:2
+          # environment variables
           env:
+            # we can provide list of 'name' and 'value' pairs.
             - name: STORY_FOLDER
               # value: 'story'
               valueFrom:
