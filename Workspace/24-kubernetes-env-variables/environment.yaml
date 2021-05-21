@@ -1,7 +1,13 @@
 apiVersion: v1
+# ConfigMap - resource which kK8s understands.
+# It creates a map of configurations. So a key value pair list basically.
 kind: ConfigMap
+
 metadata:
+  # name for later use
   name: data-store-env
+
+# actual data of key value pairs
 data:
   folder: 'story'
   # key: value..
