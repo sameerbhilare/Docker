@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: users-service
+spec:
+  # select pods
+  selector:
+    app: users
+  # for outside access
+  type: LoadBalancer
+  # expose ports
+  ports:
+    - protocol: TCP
+      # outside port
+      port: 8080
+      targetPort: 8080

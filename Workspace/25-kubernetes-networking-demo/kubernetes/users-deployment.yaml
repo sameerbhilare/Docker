@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users-deployment
+
+# configuring deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: users
+  # pod details
+  template:
+    metadata:
+      labels:
+        app: users
+    # configuration for this pod
+    spec:
+      containers:
+        - name: users
+          image: academind/kub-demo-users
