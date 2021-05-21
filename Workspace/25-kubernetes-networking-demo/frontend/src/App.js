@@ -9,7 +9,10 @@ function App() {
 
   const fetchTasks = useCallback(function () {
     // use ip exposed by tasks service as this code runs in the browser
-    fetch('http://192.168.99.100:32140/tasks', {
+    //fetch('http://192.168.99.100:32140/tasks', {
+
+    // using reverse proxy. see /frontend/conf/nginx.conf
+    fetch('/api/tasks', {
       headers: {
         Authorization: 'Bearer abc', // dummy aauthorization header
       },
@@ -31,7 +34,10 @@ function App() {
 
   function addTaskHandler(task) {
     // use ip exposed by tasks service as this code runs in the browser
-    fetch('http://192.168.99.100:32140/tasks', {
+    //fetch('http://192.168.99.100:32140/tasks', {
+
+    // using reverse proxy. see /frontend/conf/nginx.conf
+    fetch('/api/tasks', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
