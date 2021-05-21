@@ -1,5 +1,4 @@
 const axios = require('axios');
-const { response } = require('express');
 const { createAndThrowError, createError } = require('../helpers/error');
 
 const User = require('../models/user');
