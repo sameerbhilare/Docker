@@ -24,3 +24,7 @@ Shortcut (Powershell) for bind mount with current project folder
 Shortcut (Cmd) for bind mount with current project folder
 
 > docker run --rm -d -p 3000:3000 --env PORT=3000 --name feedback-app -v feedback:/app/feedback -v %cd%:/app:ro -v /app/temp -v /app/node_modules feedback-node
+> Here,
+> -v feedback:/app/feedback is the named volume to store persistent data (write only)
+> -v %cd%:/app:ro is bind mount, so that any changes in code will immediately reflect (copied) in container.
+> -v /app/node_module is the anonymous volume to avoid overwrite of node_modules folder inside container due to above bind mount.
