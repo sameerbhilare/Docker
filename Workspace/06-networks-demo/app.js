@@ -66,10 +66,15 @@ app.get('/people', async (req, res) => {
 });
 
 mongoose.connect(
+  // this is used when this application is not running inside container and wants to connect to local (host) machine mongodb
   //'mongodb://localhost:27017/swfavorites',
+
+  // container to host (service) communication
   //'mongodb://host.docker.internal:27017/swfavorites',
-  //'mongodb://172.17.0.2:27017/swfavorites',
-  'mongodb://mongodb:27017/swfavorites',
+
+  // container to container communication
+  //'mongodb://172.17.0.2:27017/swfavorites', // way 1
+  'mongodb://mongodb:27017/swfavorites',  // better way 2 - using network
   { useNewUrlParser: true },
   (err) => {
     if (err) {
