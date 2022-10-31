@@ -40,7 +40,7 @@ COPY . /app
 # the values can be overwritten with docker run command's --env option e.g. --env PORT=3000
 # ENV PORT 80
 
-# to set build time arguments
+# to set build time arguments. e.g. docker build -t feedback-node:web-app --build-arg  DEFAULT_PORT=8000.
 ARG DEFAULT_PORT=80
 
 # When this container is started, we wanna expose a certain port (here 80) to our local system.
