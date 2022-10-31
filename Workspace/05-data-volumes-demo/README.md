@@ -33,3 +33,7 @@ Shortcut (Cmd) for bind mount with current project folder
 > -v /app/temp explicitly adding this anonymous volume so that we will be able to write to this folder from inside the container. Otherwise due to above "ro" bind mount, we would not be able to write to it.
 
 > -v /app/node_module is the anonymous volume to avoid overwrite of node_modules folder inside container due to above "ro" bind mount.
+
+Running using env file
+
+> docker run --rm -d -p 3000:3000 --env-file ./.env --name feedback-app -v feedback:/app/feedback -v ${PWD}:/app:ro -v /app/temp -v /app/node_modules feedback-node
