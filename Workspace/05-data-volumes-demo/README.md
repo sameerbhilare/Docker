@@ -24,7 +24,12 @@ Shortcut (Powershell) for bind mount with current project folder
 Shortcut (Cmd) for bind mount with current project folder
 
 > docker run --rm -d -p 3000:3000 --env PORT=3000 --name feedback-app -v feedback:/app/feedback -v %cd%:/app:ro -v /app/temp -v /app/node_modules feedback-node
+
 > Here,
-> -v feedback:/app/feedback is the named volume to store persistent data (write only)
-> -v %cd%:/app:ro is bind mount, so that any changes in code will immediately reflect (copied) in container.
-> -v /app/node_module is the anonymous volume to avoid overwrite of node_modules folder inside container due to above bind mount.
+> -v feedback:/app/feedback is the named volume to store persistent data (Read-Write)
+
+> -v %cd%:/app:ro is (read only bcz of "ro" ) bind mount, so that any changes in code will immediately reflect (copied) in container but container will not be able to make any changes (writes) to /app or its sub folders on host. Without the "ro" option, bind mounts are writable both ways (i.e. host changes will be reflected in container and changes in container will be reflected in host file system). By default volumes are read-write.
+
+> -v /app/temp explicitly adding this anonymous volume so that we will be able to write to this folder from inside the container. Otherwise due to above "ro" bind mount, we would not be able to write to it.
+
+> -v /app/node_module is the anonymous volume to avoid overwrite of node_modules folder inside container due to above "ro" bind mount.
