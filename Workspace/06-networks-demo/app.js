@@ -49,6 +49,7 @@ app.post('/favorites', async (req, res) => {
 
 app.get('/movies', async (req, res) => {
   try {
+    // container to WWW communication
     const response = await axios.get('https://swapi.dev/api/films');
     res.status(200).json({ movies: response.data });
   } catch (error) {
@@ -72,9 +73,14 @@ mongoose.connect(
   // container to host (service) communication
   //'mongodb://host.docker.internal:27017/swfavorites',
 
-  // container to container communication
-  //'mongodb://172.17.0.2:27017/swfavorites', // way 1
-  'mongodb://mongodb:27017/swfavorites',  // better way 2 - using network
+  // container to container communication - way 1 - using IP of other container
+  //'mongodb://172.17.0.2:27017/swfavorites',
+
+  // container to container communication - way 2 (recommended) - using docker network
+  // step 1. create network using docker network command.
+  // step 2. directly use name of the container (which is part of the the same network)
+  // step 3. start each container using SAME network name.
+  'mongodb://mongodb:27017/swfavorites',
   { useNewUrlParser: true },
   (err) => {
     if (err) {
