@@ -11,7 +11,7 @@ Here the command “init” will be appended to “npm” as mentioned in ENTRYP
 
 With Docker Compose =>
 
-> docker-compose run <service-name> --rm <command-name>
+> docker-compose run --rm <service-name> <command-name>
 
 E.g. To run npm init,
 
