@@ -40,13 +40,15 @@ services:
     #  context: ./backend
     #  # dockerfile -not required is filename is Dockerfile
     #  dockerfile: Dockerfile
+    #  args:
+    #    some-arg:1
     #  # plus some other options
     ports:
       - '80:80'
     volumes:
       # named volume
       - logs:/app/logs
-      # relative path for bind mount
+      # relative path for bind mount is allowed in docker-compose file.
       - ./backend:/app
       # anonyous volume
       - /app/node_modules
@@ -60,6 +62,8 @@ services:
 
   # service 2
   frontend:
+    # path to Dockerfile from where we need to build an image
+    # It builds an image if it doesn't exist or something in the code changes.
     build: ./frontend
     ports:
       - '3000:3000'
