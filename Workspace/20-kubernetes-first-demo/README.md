@@ -1,9 +1,9 @@
 > docker build -t sameer59/kub-first-app .
 > docker push sameer59/kub-first-app
 
-#Imperative Way
+# Imperative Way
 
-##Deployment
+## Deployment
 
 > kubectl create deployment first-app --image=sameer59/kub-first-app
 
@@ -13,22 +13,22 @@
 
 > kubectl delete deployment first-app
 
-##Service (Exposing deployment)
+## Service (Exposing deployment)
 
 > kubectl expose deployment first-app --type=LoadBalancer --port=8080
 
 > kubectl get services
 
-###To access the service from external,
+### To access the service from external,
 
 > minikube service first-app
 
-###Scaling a deployment
+## Scaling a deployment
 
 > kubectl scale deployment/first-app --replicas=3
 > This will create 3 pods/containers
 
-##Updating Deployment
+## Updating Deployment
 
 Make sure you create new tag, otherwise kubernetes will not download new image.
 
@@ -43,17 +43,17 @@ To view current updating status
 
 > kubectl rollout status deployment/first-app
 
-##Rollback Deployment
+## Rollback Deployment
 
-To rollback to previous deployment
+### To rollback to previous deployment
 
 > kubectl rollout undo deployment/first-app
 
-To see deployment history
+### To see deployment history
 
 > kubectl rollout history deployment/first-app
 
-To rollback to some older deployment e.g. first version as per above history command
+### To rollback to some older deployment e.g. first version as per above history command
 
 > kubectl rollout undo deployment/first-app --revision=1
 
