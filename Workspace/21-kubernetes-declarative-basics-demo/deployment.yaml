@@ -10,16 +10,17 @@ metadata:
 
 # define how this "deployment" should be configured.
 spec:
-  # number of pod instances.default is 1, if you don't provide 'replicas' attribute
+  # number of pod instances. Default is 1, if you don't provide 'replicas' attribute
   replicas: 1
 
   # A selector identifies which other resource should be controlled or connected to this resource.
   selector:
     # labels on the pods which should be controlled by this deployment.
-    # the key values hereshould match with those under 'template' -> 'metadata' -> 'labels' below
+    # the key values here should match with those under 'template' -> 'metadata' -> 'labels' below
     # This tell this deployment that all the pods which have a label of 'app' with a value of 'second-app',
-    # and with another label with a name of 'tier' with a value of 'backend' should be controlled by this deployment.
-    # other non-matching pods will not be controlled by this deployment.
+    # AND with another label with a name of 'tier' with a value of 'backend' should be controlled by this deployment.
+    # other non-matching pods will NOT be controlled by this deployment.
+    # In other words, it tells the deployment which pods belong to it.
     matchLabels:
       app: second-app
       tier: backend
@@ -40,15 +41,19 @@ spec:
       containers:
         - name: second-node
           # image on docker hub
-          image: academind/kub-first-app:2
+          # if you use 'sameer59/kub-first-app:latest', then kubernetes will always pull latest from docker hub.
+          # otherwise it will pull only once, unless 'imagePullPolicy' is defined.
+          image: sameer59/kub-first-app
           # imagePullPolicy - Always, Never, IfNotPresent
-          #imagePullPolicy: Always
+          imagePullPolicy: Always
           # how Kubernetes should verify whether this container is up and running.
           livenessProbe:
             httpGet:
               path: /
               port: 8080
+            # how often kubernetes should check the health
             periodSeconds: 10
-            initialDelay: 5
+            # initial delay after which kubernetes should check the health
+            initialDelaySeconds: 5
         # - name: ...
         #   image: ...

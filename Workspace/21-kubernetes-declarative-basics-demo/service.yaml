@@ -12,7 +12,7 @@ metadata:
 spec:
   # A selector identifies which other resource should be controlled or connected to this resource.
   selector:
-    # here we don't have 'matchLabels', because thatis implicit.
+    # here we don't have 'matchLabels', because that is implicit.
     # This tell this service that all the pods which have a label of 'app' with a value of 'second-app'
     # should be 'exposed' by this service.
     app: second-app

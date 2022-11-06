@@ -1,39 +1,90 @@
+# combining deployment and service resources into single file.
+# If you combine a service and a deployment in one of the same file, it is a good practice to put the service first
+# so that this resource is created first because resources are created from top to bottom 
+# and since it has the selector, it will then dynamically add any pods which are created thereafter.
+# It would also work in the other order, but this is considered to be a better practice.
+
+# It is really important to keep in mind that these objects are living organisms in the cluster.
+# When a service is created, it's not created and analyzed once, but it continuously monitors all the pods
+# which are created and removed in your application and if a new pod is created which matches given label selector,
+# it will be added to this service. That's why creating service first is no problem here, but is instead recommended.
 apiVersion: v1
 kind: Service
 metadata:
   name: backend
 spec:
   selector:
+    # Unlike Deployment, 'matchLabels' is not required here for service.
+    # This will select all pods having a label of 'app' with a value of 'second-app', even if they have other custom labels e.g. tier.
+    # Basically this service selects and therefore exposes all pods with an 'app' label with a value of 'second-app'.
     app: second-app
   ports:
     - protocol: 'TCP'
+      # outside port
       port: 80
+      # inside of the container
       targetPort: 8080
     # - protocol: 'TCP'
     #   port: 443
     #   targetPort: 443
   type: LoadBalancer
 
-# multiple object configurations are seperated by three dashes '---'
+# multiple object configurations are separated by three dashes '---'
 ---
+# api version to use. You can refer kubernetes docs to see versions
 apiVersion: apps/v1
+# Here you define the kind of Kubernetes object you want to create - in this case a "Deployment" object
 kind: Deployment
+
+# meta data about this resource type ("Deployment")
 metadata:
+  # name of the deployment
   name: second-app-deployment
+
+# define how this "deployment" should be configured.
 spec:
+  # number of pod instances. Default is 1, if you don't provide 'replicas' attribute
   replicas: 1
+
+  # A selector identifies which other resource should be controlled or connected to this resource.
   selector:
+    # labels on the pods which should be controlled by this deployment.
+    # the key values here should match with those under 'template' -> 'metadata' -> 'labels' below
+    # This tell this deployment that all the pods which have a label of 'app' with a value of 'second-app',
+    # AND with another label with a name of 'tier' with a value of 'backend' should be controlled by this deployment.
+    # other non-matching pods will NOT be controlled by this deployment.
+    # In other words, it tells the deployment which pods belong to it.
     matchLabels:
       app: second-app
       tier: backend
+
+  # define the pods that should be created as part of this "deployment"
   template:
+    # since this file is "deployment" object. A deployment always contains a pod.
+    # So here no need to use "kind: Pod" as it is default and anyway as per specs you cant add 'kind' here
+    # need to add "metadata" because a pod is a new object
     metadata:
+      # both key and values under labels can be any custom strings. e.g. blabla: haha
       labels:
         app: second-app
         tier: backend
+    # define how this "pod" should be configured.
     spec:
+      # allows us to define the container(s) which should be part of this pod by providing name and image name
       containers:
         - name: second-node
-          image: academind/kub-first-app:2
+          # image on docker hub
+          image: sameer59/kub-first-app
+          # imagePullPolicy - Always, Never, IfNotPresent
+          #imagePullPolicy: Always
+          # how Kubernetes should verify whether this container is up and running.
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            # how often kubernetes should check the health
+            periodSeconds: 10
+            # initial delay after which kubernetes should check the health
+            initialDelaySeconds: 5
         # - name: ...
         #   image: ...
