@@ -1,5 +1,5 @@
 apiVersion: v1
-# kind of resource - PersistentVolume
+# kind of resource - PersistentVolume - pod and node independent volume
 kind: PersistentVolume
 metadata:
   # name for the pv
@@ -8,13 +8,14 @@ metadata:
 spec:
   # to control how much capacity can be used by the different pods which are later executed in our cluster.
   capacity:
-    # overall storage capacity (see official docs to see available options)
+    # overall storage capacity for this persistent volume (see official docs to see available options)
     storage: 1Gi
 
   # available modes - Filesystem, Block
   volumeMode: Filesystem
 
   # The storage class gives administrators fine grain control over how storage is managed and how volumes can be configured
+  # use name defined in > kubectl get storageclass
   storageClassName: standard
 
   # how this volume can be accessed. Allowed values - ReadWriteOnce, ReadOnlyMany, ReadWriteMany

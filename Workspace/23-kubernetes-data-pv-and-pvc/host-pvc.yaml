@@ -12,6 +12,7 @@ metadata:
 # configuration for this claim
 spec:
   # which pv we want to claim. We can have more than one pv.
+  # host-pv.yaml -> metadata -> name
   volumeName: host-pv
 
   # How the pv should be accessed. Allowed values - ReadWriteOnce, ReadOnlyMany, ReadWriteMany
@@ -21,6 +22,7 @@ spec:
     - ReadWriteOnce
 
   # Use that same storageClassName as defined in pv when you make your claim.
+  # use name defined in > kubectl get storageclass
   storageClassName: standard
 
   # counterpart of 'capacity' defined in host-pv.yaml file
