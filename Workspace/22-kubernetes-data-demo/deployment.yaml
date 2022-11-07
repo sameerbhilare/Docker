@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: story
-          image: academind/kub-data-demo:1
+          image: sameer59/kub-data-demo:1
           # define volume mounts
           volumeMounts:
             # container internal path. depends on your application where your application writes data.
@@ -30,7 +30,7 @@ spec:
           # volume type
           # emptyDir simply creates a new empty directory whenever the pod starts. (one per pod)
           # And it keeps this directory alive and filled with data as long as the pod is alive.
-          # Containers can then use this direcetory.
+          # Containers can then use this directory.
           # And if containers restart or are removed, the data survives.
           # But if the pod should be removed, this directory is removed.
           # And when the pod is recreated, a new empty directory is created.
@@ -39,6 +39,7 @@ spec:
 
           # This allows us to set a path on the host machine, so on the node, the real machine running this pod,
           # and then the data from that path will be exposed to the different pods.
+          # Advantage over emptyDir is - here multiple pods on the same host (worker node) can connect to same path.
           hostPath:
             # path on the host machine (worker node machine)
             path: /data
