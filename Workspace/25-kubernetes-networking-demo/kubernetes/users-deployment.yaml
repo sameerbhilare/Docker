@@ -21,7 +21,7 @@ spec:
         - name: users
           # when using the latest tag, by default kubernetes always refetches and re-evaluates the image
           # when something changes about our deployment configuration.
-          image: academind/kub-demo-users:latest
+          image: sameer59/kub-demo-users:latest
           # need to set this env variable so that users api can talk to auth api.
           env:
             - name: AUTH_ADDRESS
@@ -32,4 +32,5 @@ spec:
               # This CoreDNS service which is installed in your cluster, automatically creates domain names
               # which are available and known inside of the cluster for all your service objects.
               # The generated domains names are same as service names, followed by a dot and namespace.
+              # > kubectl get namespaces
               value: 'auth-service.default'

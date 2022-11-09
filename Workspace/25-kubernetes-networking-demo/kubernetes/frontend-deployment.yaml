@@ -21,7 +21,7 @@ spec:
         - name: frontend
           # when using the latest tag, by default kubernetes always refetches and re-evaluates the image
           # when something changes about our deployment configuration.
-          image: academind/kub-demo-frontend:latest
+          image: sameer59/kub-demo-frontend:latest
           # need to set this env variable so that frontend api can talk to tasks api.
           # env:
           #   - name: TASKS_ADDRESS

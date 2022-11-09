@@ -19,4 +19,4 @@ spec:
       containers:
         # no need to expose port for auth api, as it will be reachable from users api only. So from this same pod
         - name: auth
-          image: academind/kub-demo-auth:latest
+          image: sameer59/kub-demo-auth:latest
